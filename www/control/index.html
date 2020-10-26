@@ -1,0 +1,62 @@
+﻿<html><head>
+<title>octopusLAB-ESP32</title>
+<meta charset="utf-8" />
+<script type="text/javascript" src="octopusengine-num.js"></script> 
+<script>
+function test(p1)
+{
+txt = "innerHTML" + " dynamic value";
+document.getElementById("display").innerHTML = txt;
+}
+</script> 
+<link href="control.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1><img src="octopus-72.png" ALIGN="BOTTOM">octopusLAB test</h1>
+
+
+<div class="radius">
+<br />
+ <a href="info.html">Info</a><br />
+ <a href="led.html">Led</a><br />
+ <a href="rgb.html">RGB Led</a><br />
+
+<br /><br /><br />
+
+<form> 
+<input type="button" value="Dashboard" onclick="test()"/>  
+<input type="button" value="Fibonaci" onclick="fibonaci(21)"/>  
+<input type="button" value="Primes" onclick="findPrimes(99)"/>
+</form>
+
+</div>
+
+<br />
+<div class="radius">
+<br />
+<div id="display">.:.</div>
+dashboard test - s o o n
+</div>
+<br />
+
+<div class="radius">
+<br />
+polyline<br /
+>
+<svg height="210" width="500">
+<line x1="0" y1="1" x2="300" y2="1" style="stroke:rgb(255,0,0);stroke-width:1" />
+<line x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(255,0,0);stroke-width:1" />
+<line x1="0" y1="200" x2="300" y2="200" style="stroke:rgb(255,0,0);stroke-width:1" />
+<polyline points="20,20 40,25 60,40 80,120 120,140 200,180 220,20 240,30 260,15 280,100 300,80" style="fill:none;stroke:maroon;stroke-width:3" />
+Sorry, your browser does not support inline SVG.
+</svg>
+</div>
+        
+<br />
+<div class="radius">
+<br />
+◄ Back to main <a href="../index.html">MENU</a>
+</div>
+
+</body></html>
