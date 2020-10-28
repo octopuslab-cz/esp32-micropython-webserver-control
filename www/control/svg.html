@@ -1,9 +1,10 @@
 ﻿<html><head>
-    <title>octopusLAB-ESP32-control</title>
-    <meta charset="utf-8" />
-    <link href="control.css" rel="stylesheet" type="text/css" />
-    </head>
-    <script>  
+<title>octopusLAB-ESP32</title>
+<meta charset="utf-8" />
+<script type="text/javascript" src="octopusengine-num.js"></script> 
+<link href="control.css" rel="stylesheet" type="text/css" />
+</head>
+<script>
 function loadInfo()
         {
             var button = document.getElementById("buttonInfo");
@@ -35,10 +36,12 @@ function loadInfo()
                 var json = JSON.parse(xhr.responseText);
                 console.log(json);
                 console.log(xhr.responseText);
-                infoUID.innerText = json['deviceUID'];
-                infoRAM.innerText = json['freeRAM'];                
+                d10.innerText = json['10'];
+                d20.innerText = json['20'];  
+                d30.innerText = json['30'];
+                dsvg.innerText = "10," + json['10'] + ",20," + json['20'];               
             }    
-            xhr.open('GET', '/info.json');
+            xhr.open('GET', '/data.json');
             xhr.send();
         }
     
@@ -50,22 +53,34 @@ function loadInfo()
     
     <br />
     <div class="radius">
-    <h3>Esp32 system info</h3>
-    <b>UID: </b><span id="infoUID">...</span><br />
-    <b>free RAM: </b><span id="infoRAM">...</span><br />
+    <h3>Esp32 data</h3>
+    <b>10</b><span id="d10">...</span><br />
+    <b>20 </b><span id="d20">...</span><br />
+    <b>30 </b><span id="d30">...</span><br />
     ... <span id="testInfo"></span><br />
     <br />
     <input class="button" type="button" onClick="loadInfo()" id="buttonInfo" value="Refresh" />
-    
 
-    
-    </div>
-    <br />
-    
-    
-    <div class="radius">
-    <br />
-    ◄ Back to main <a href="index.html">MENU</a>
-    </div>
-    
-    </body></html>
+</div>
+<br />
+
+<div class="radius">
+<br />
+polyline<br /
+>
+<svg height="210" width="500">
+<line x1="0" y1="1" x2="300" y2="1" style="stroke:rgb(255,0,0);stroke-width:1" />
+<line x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(255,0,0);stroke-width:1" />
+<line x1="0" y1="200" x2="300" y2="200" style="stroke:rgb(255,0,0);stroke-width:1" />
+<polyline points="20,20 40,25 60,40 80,120 120,140 200,180 220,20 240,30 260,15 280,100 300,80" style="fill:none;stroke:maroon;stroke-width:3" />
+Sorry, your browser does not support inline SVG.
+</svg>
+</div>
+        
+<br />
+<div class="radius">
+<br />
+◄ Back to main <a href="../index.html">MENU</a>
+</div>
+
+</body></html>

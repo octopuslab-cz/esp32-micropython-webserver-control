@@ -54,7 +54,9 @@
 
         xhr.open('POST', '/control/pwm');
         xhr.send(value);
-    }
+    }  
+
+
     </script>
     
     <body onload="loadInfo()">
@@ -69,24 +71,22 @@
     <form>
     <input class="button_big back_gre" type="button" onClick="ledOn(1)"  value="On" /></input>
     <input class="button_big back_red" type="button" onClick="ledOn(0)" value="Off" /></input>
-    
     </form>
     
-    </div>
-    <br />
+</div>
+<br />
     
-    <div class="radius">
+<div class="radius">
     <h3>Esp32 testing and prepare</h3>
     PWM test: <span id="pwm"></span><br />
     PORT: <input class = "inp_txt" id="pwm_port" type="text" name="pwm_port" size="5"/> | 
     DUTY: <input class = "inp_txt" id="pwm_duty" type="text" name="pwm_duty" size="5"/> | 
     FREQ: <input class = "inp_txt" id="pwm_freq" type="text" name="pwm_freq" size="5"/> 
-    <br />
+    <br /><br />    
     <h3>LED light intensity</h3>
     <input class="slider" id="pwm_duty" type="range" min=0 max=1023 value=0 onchange="ledPwmValue(this.value);" />
-    
-    
-    </div>
+       
+</div>    
     
     <br />
     <div class="radius">
