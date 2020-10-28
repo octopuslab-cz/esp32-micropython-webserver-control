@@ -1,12 +1,12 @@
 from time import sleep
 from machine import Pin
-from utils.octopus_lib import w, getFree, getUid
+from utils.octopus_lib import w, getFree, getUid, randint
 from microWebSrv import MicroWebSrv
 from components.led import Led
 from components.rgb import Rgb
 import json
 
-neo = 30
+neo = 30 # number of Leds
 np = Rgb(15,neo) # NeoPixel(Pin(15), 1)
 led = Led(2)
 # pwm
@@ -24,6 +24,17 @@ def _httpHandlerINFOPost(httpClient, httpResponse):
     httpResponse.WriteResponseJSONOk(infoDict)
 
 
+def _httpHandlerDATAPost(httpClient, httpResponse):
+    infoDict = {}
+    infoDict["10"] = randint(100,200)
+    infoDict["20"] = randint(100,200)
+    infoDict["30"] = randint(100,200)
+    infoDict["40"] = randint(100,200)
+    infoDict["50"] = randint(100,200)
+    infoDict["60"] = randint(100,200)
+    httpResponse.WriteResponseJSONOk(infoDict)
+
+
 def _httpHandlerLEDPost(httpClient, httpResponse):
     content = httpClient.ReadRequestContent()  # Read JSON color data
     jsc = json.loads(content)
@@ -38,6 +49,28 @@ def _httpHandlerPWMPost(httpClient, httpResponse):
     print("pwm: ",jsc)
     # todo
     httpResponse.WriteResponseJSONOk()
+
+
+def _httpHandlerCOMMPost(httpClient, httpResponse):
+    data  = httpClient.ReadRequestContentAsJSON()
+    responseCode = 500
+    content = None
+
+    print(data)
+
+    if len(data) < 1:
+        responseCode = 400
+        content = "Missing data"
+        httpResponse.WriteResponse(code=400, headers = None, contentType = "text/plain", contentCharset = "UTF-8", content = content)
+        return
+
+    comm = data[0]
+    commval= data[1] if len(data) > 1 else ""
+
+    print(data[0], data[1])
+    responseCode = 201
+
+    httpResponse.WriteResponse( code=responseCode, headers = None, contentType = "text/plain", contentCharset = "UTF-8", content = content)
 
 
 def _httpHandlerRGBPost(httpClient, httpResponse):
@@ -69,7 +102,7 @@ print("-"*50)
 
 if (btnum==0):
     print("button0 -> start WebServer www/control/")
-    routeHandlers = [ ( "/info.json", "GET",  _httpHandlerINFOPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ) ]
+    routeHandlers = [ ( "/command", "POST",  _httpHandlerCOMMPost ),( "/info.json", "GET",  _httpHandlerINFOPost ),( "/data.json", "GET",  _httpHandlerDATAPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ) ]
     srv = MicroWebSrv(routeHandlers=routeHandlers, webPath='/www/control/')
     srv.Start(threaded=False)
 else:
