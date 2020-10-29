@@ -4,30 +4,30 @@
     <link href="control.css" rel="stylesheet" type="text/css" />
     </head>
     <script>    
-        function ledOn(value)
-        {
-            var infoLed = document.getElementById("led");
-            var xhr = new XMLHttpRequest();
-            infoLed.innerText = value;
-            xhr.timeout = 10000;
-    
-            xhr.onerror = function () {
-                console.log("Error");
-            }
-    
-            xhr.ontimeout = function () {
-                console.log("Request timeout");
-            }
-    
-            xhr.onload = function () {
-                console.log(xhr.responseText);
-                console.log(xhr.status);
-                boardInfo();
-            }
-    
-            xhr.open('POST', '/control/led');
-            xhr.send(value);
+    function ledOn(value)
+    {
+        var infoLed = document.getElementById("led");
+        var xhr = new XMLHttpRequest();
+        infoLed.innerText = value;
+        xhr.timeout = 10000;
+
+        xhr.onerror = function () {
+            console.log("Error");
         }
+
+        xhr.ontimeout = function () {
+            console.log("Request timeout");
+        }
+
+        xhr.onload = function () {
+            console.log(xhr.responseText);
+            console.log(xhr.status);
+            boardInfo();
+        }
+
+        xhr.open('POST', '/control/led');
+        xhr.send(value);
+    }
     
     
     
@@ -88,10 +88,10 @@
        
 </div>    
     
-    <br />
-    <div class="radius">
-    <br />
-    ◄ Back to main <a href="index.html">MENU</a>
-    </div>
-    
-    </body></html>
+<br />
+<div class="radius">
+<br />
+◄ Back to main <a href="index.html">MENU</a>
+</div>
+
+</body></html>

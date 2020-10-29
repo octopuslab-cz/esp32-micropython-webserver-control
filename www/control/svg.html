@@ -37,6 +37,7 @@ function loadInfo()
                 var json = JSON.parse(xhr.responseText);
                 console.log(json);
                 console.log(xhr.responseText);
+                cnt.innerText = json['cnt'];
                 d10.innerText = json['10'];
                 d20.innerText = json['20'];  
                 d30.innerText = json['30'];
@@ -55,6 +56,8 @@ function loadInfo()
     <br />
     <div class="radius">
     <h3>Esp32 data</h3>
+    <b>counter: </b><span id="cnt">...</span><br />
+    <hr />
     <b>10 </b><span id="d10">...</span><br />
     <b>20 </b><span id="d20">...</span><br />
     <b>30 </b><span id="d30">...</span><br />

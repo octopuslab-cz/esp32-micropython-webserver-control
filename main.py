@@ -24,8 +24,12 @@ def _httpHandlerINFOPost(httpClient, httpResponse):
     httpResponse.WriteResponseJSONOk(infoDict)
 
 
+cnt = 0
 def _httpHandlerDATAPost(httpClient, httpResponse):
+    global cnt
+    cnt = cnt + 1
     infoDict = {}
+    infoDict["cnt"] = cnt
     infoDict["10"] = randint(100,200)
     infoDict["20"] = randint(100,200)
     infoDict["30"] = randint(100,200)
