@@ -49,10 +49,13 @@ function loadInfo()
                 var points = [];
                 var ITEMS_COUNT = 6;
                 for (var i=1; i<=ITEMS_COUNT; i++){
-                    ident = String.valueOf(i * 10);
-                    points.push(ident + "," + json[ident]);
+                    ident = i * 10;
+                    var ident_str = ident.toString();
+                    points.push(ident_str + "," + json[ident_str]);
                 }
-                pl1.setAttribute('points', points.join(' '));
+                var points_str = points.join(' ');
+                console.log(points_str);
+                pl1.setAttribute('points', points_str);
             }    
             xhr.open('GET', '/data.json');
             xhr.send();
