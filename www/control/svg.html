@@ -10,8 +10,12 @@ function loadInfo()
         {
             var button = document.getElementById("buttonInfo");
             
-            var infoUID = document.getElementById("infoUID");
-            var infoRAM = document.getElementById("infoRAM");
+            var cnt = document.getElementById("cnt");
+            var d10 = document.getElementById("d10");
+            var d20 = document.getElementById("d20");
+            var d30 = document.getElementById("d30");
+            var pl1 = document.getElementById("pl1");
+
             button.value = "Refreshing...";
             button.disabled = true;
     
@@ -41,7 +45,14 @@ function loadInfo()
                 d10.innerText = json['10'];
                 d20.innerText = json['20'];  
                 d30.innerText = json['30'];
-                dsvg.innerText = "10," + json['10'] + ",20," + json['20'];               
+
+                var points = [];
+                var ITEMS_COUNT = 6;
+                for (var i=1; i<=ITEMS_COUNT; i++){
+                    ident = String.valueOf(i * 10);
+                    points.push(ident + "," + json[ident]);
+
+                pl1.setAttribute('points', points.join(' '));
             }    
             xhr.open('GET', '/data.json');
             xhr.send();
@@ -76,7 +87,7 @@ polyline<br /
 <line x1="0" y1="1" x2="300" y2="1" style="stroke:rgb(255,0,0);stroke-width:1" />
 <line x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(255,0,0);stroke-width:1" />
 <line x1="0" y1="200" x2="300" y2="200" style="stroke:rgb(255,0,0);stroke-width:1" />
-<polyline points="20,20 40,25 60,40 80,120 120,140 200,180 220,20 240,30 260,15 280,100 300,80" style="fill:none;stroke:maroon;stroke-width:3" />
+<polyline id="pl1" points="20,20 40,25 60,40 80,120 120,140 200,180 220,20 240,30 260,15 280,100 300,80" style="fill:none;stroke:maroon;stroke-width:3" />
 Sorry, your browser does not support inline SVG.
 </svg>
 </div>
