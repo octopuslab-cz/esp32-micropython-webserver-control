@@ -51,7 +51,7 @@ function loadInfo()
                 for (var i=1; i<=ITEMS_COUNT; i++){
                     ident = String.valueOf(i * 10);
                     points.push(ident + "," + json[ident]);
-
+                }
                 pl1.setAttribute('points', points.join(' '));
             }    
             xhr.open('GET', '/data.json');
