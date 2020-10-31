@@ -1,0 +1,46 @@
+﻿<html><head>
+<title>octopusLAB-ESP32</title>
+<meta charset="utf-8" />
+<script type="text/javascript" src="octopusengine-num.js"></script> 
+<script>
+function test(p1)
+{
+txt = "innerHTML" + " dynamic value";
+document.getElementById("display").innerHTML = txt;
+}
+</script> 
+<link href="control.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1><img src="octopus-72.png" ALIGN="BOTTOM">octopusLAB test</h1>
+
+<div class="radius">
+<h3>.: JS </h3>
+<br />
+Simple Javascript test:
+<br /><br />
+<form> 
+<input type="button" value="Dashboard" onclick="test()"/>  
+<input type="button" value="Fibonaci" onclick="fibonaci(21)"/>  
+<input type="button" value="Primes" onclick="findPrimes(99)"/>
+</form>
+
+</div>
+
+<br />
+<div class="radius">
+<br />
+<div id="display">.:.</div>
+<br />
+dashboard test - s o o n
+<br />
+</div>
+<br />
+
+<div class="radius">
+<br />
+◄ Back to main <a href="index.html">MENU</a>
+</div>
+
+</body></html>

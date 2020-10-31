@@ -1,0 +1,93 @@
+﻿<html><head>
+<title>octopusLAB-ESP32-control</title>
+<meta charset="utf-8" />
+<link href="control.css" rel="stylesheet" type="text/css" />
+</head>
+
+<script>
+function ledOn(value)
+{
+    var infoLed = document.getElementById("led");
+    var xhr = new XMLHttpRequest();
+    infoLed.innerText = value;
+    xhr.timeout = 10000;
+
+    xhr.onerror = function () {
+        console.log("Error");
+    }
+
+    xhr.ontimeout = function () {
+        console.log("Request timeout");
+    }
+
+    xhr.onload = function () {
+        console.log(xhr.responseText);
+        console.log(xhr.status);
+        boardInfo();
+    }
+
+    xhr.open('POST', '/control/led');
+    xhr.send(value);
+}
+
+
+function ledPwmValue(value) {
+    var slider_led = document.getElementById("pwm_duty");
+    slider_led.value = value
+
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 10000;
+
+    xhr.onerror = function () {
+        console.log("Error");
+    }
+
+    xhr.ontimeout = function () {
+        console.log("Request timeout");
+    }
+
+    xhr.onload = function () {
+        console.log(xhr.responseText);
+        console.log(xhr.status);
+        boardInfo();
+    }
+
+    xhr.open('POST', '/control/pwm');
+    xhr.send(value);
+}
+</script>
+
+<body onload="loadInfo()">
+<h1><img src="octopus-72.png" ALIGN="BOTTOM"> octopusLAB - ESP32 control</h1>
+
+<br />
+
+<div class="radius">
+<h3>.: Esp32 simple LED control</h3>
+Default / BUILT_IN LED: <b><span id="led"></span><b><br />
+<form>
+<input class="button_big back_gre" type="button" onClick="ledOn(1)"  value="On" /></input>
+<input class="button_big back_red" type="button" onClick="ledOn(0)" value="Off" /></input>
+</form>
+
+</div>
+<br />
+
+<div class="radius">
+<h3>.: Esp32 testing and prepare</h3>
+PWM test: <span id="pwm"></span><br />
+PORT: <input class = "inp_txt" id="pwm_port" type="text" name="pwm_port" size="5"/> | 
+DUTY: <input class = "inp_txt" id="pwm_duty" type="text" name="pwm_duty" size="5"/> | 
+FREQ: <input class = "inp_txt" id="pwm_freq" type="text" name="pwm_freq" size="5"/> 
+<br /><br />    
+<h3>LED light intensity</h3>
+<input class="slider" id="pwm_duty" type="range" min=0 max=1023 value=0 onchange="ledPwmValue(this.value);" />
+</div>
+
+<br />
+<div class="radius">
+<br />
+◄ Back to main <a href="index.html">MENU</a>
+</div>
+
+</body></html>

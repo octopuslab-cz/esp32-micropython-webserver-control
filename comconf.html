@@ -1,0 +1,68 @@
+﻿<html><head>
+    <title>octopusLAB-ESP32-control</title>
+    <meta charset="utf-8" />
+    <link href="control.css" rel="stylesheet" type="text/css" />
+    </head>
+    <script>    
+     function sendCommand()
+    {
+    var button = document.getElementById("buttonSend");
+    var command = document.getElementById("command");    
+    var commval = document.getElementById("commval");
+    var json = JSON.stringify([command.value, commval.value])
+
+    button.value = "Sending...";
+    button.disabled = true;
+
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 10000;
+
+    xhr.onerror = function () {
+        console.log("Error");
+        button.value = "Send";
+        button.disabled = false;
+    }
+
+    xhr.ontimeout = function () {
+        console.log("Request timeout");
+        button.value = "Send";
+        button.disabled = false;
+    }
+
+    xhr.onload = function () {
+        button.value = "Send";
+        button.disabled = false;
+        console.log(xhr.responseText);
+        console.log(xhr.status);
+        savedNetworks();
+    }
+
+    xhr.open('POST', '/command');
+    xhr.send(json);
+    }
+    </script>
+    
+    <body onload="loadInfo()">
+    <h1><img src="octopus-72.png" ALIGN="BOTTOM"> octopusLAB - ESP32 control</h1>
+
+    <br />
+
+
+<div class="radius">
+<h3>.: Command / Config</h3>
+<br />
+<form>
+Command: <input class = "inp_txt" id="command" type="text" name="command" size="12"/>
+Value:  <input class = "inp_txt" id="commval" type="text" name="commval" size="12"/>
+<input class="button" type="button" onClick="sendCommand()" id="buttonSend" value="Send" />
+
+</form>
+</div>
+
+<br />
+<div class="radius">
+<br />
+◄ Back to main <a href="index.html">MENU</a>
+</div>
+
+</body></html>

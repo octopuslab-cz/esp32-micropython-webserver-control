@@ -1,0 +1,67 @@
+﻿<html><head>
+    <title>octopusLAB-ESP32-control</title>
+    <meta charset="utf-8" />
+    <link href="control.css" rel="stylesheet" type="text/css" />
+    </head>
+    <script>  
+function loadInfo()
+{
+    var button = document.getElementById("buttonInfo");
+    
+    var infoUID = document.getElementById("infoUID");
+    var infoRAM = document.getElementById("infoRAM");
+    button.value = "Refreshing...";
+    button.disabled = true;
+
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 10000;
+
+    xhr.onerror = function () {
+        console.log("Error");
+        button.value = "Refresh";
+        button.disabled = false;
+    }
+
+    xhr.ontimeout = function () {
+        console.log("Request timeout");
+        button.value = "Refresh";
+        button.disabled = false;
+    }
+
+    xhr.onload = function () {
+        button.value = "Refresh";
+        button.disabled = false;
+
+        var json = JSON.parse(xhr.responseText);
+        console.log(json);
+        console.log(xhr.responseText);
+        infoUID.innerText = json['deviceUID'];
+        infoRAM.innerText = json['freeRAM'];                
+    }    
+    xhr.open('GET', '/info.json');
+    xhr.send();
+}
+
+</script>
+
+<body onload="loadInfo()">
+<h1><img src="octopus-72.png" ALIGN="BOTTOM"> octopusLAB - ESP32 control</h1>
+
+<br />
+<div class="radius">
+<h3>.: Esp32 system info</h3>
+<b>UID: </b><span id="infoUID">...</span><br />
+<b>free RAM: </b><span id="infoRAM">...</span><br />
+... <span id="testInfo"></span><br />
+<br />
+<input class="button" type="button" onClick="loadInfo()" id="buttonInfo" value="Refresh" />
+
+</div>
+<br />
+
+<div class="radius">
+<br />
+◄ Back to main <a href="index.html">MENU</a>
+</div>
+
+</body></html>
