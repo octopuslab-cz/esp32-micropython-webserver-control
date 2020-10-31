@@ -11,6 +11,8 @@ function loadInfo()
             var button = document.getElementById("buttonInfo");
             
             var cnt = document.getElementById("cnt");
+            var num = document.getElementById("num");
+            var val = document.getElementById("val");
             var d10 = document.getElementById("d10");
             var d20 = document.getElementById("d20");
             var d30 = document.getElementById("d30");
@@ -42,12 +44,14 @@ function loadInfo()
                 console.log(json);
                 console.log(xhr.responseText);
                 cnt.innerText = json['cnt'];
+                num.innerText = json['num'];
+                val.innerText = json['val'];
                 d10.innerText = json['10'];
                 d20.innerText = json['20'];  
                 d30.innerText = json['30'];
 
                 var points = [];
-                var ITEMS_COUNT = 6;
+                var ITEMS_COUNT = 30 // parseInt(num);
                 for (var i=1; i<=ITEMS_COUNT; i++){
                     ident = i * 10;
                     var ident_str = ident.toString();
@@ -70,7 +74,9 @@ function loadInfo()
     <br />
     <div class="radius">
     <h3>Esp32 data</h3>
-    <b>counter: </b><span id="cnt">...</span><br />
+    <b>counter: </b><span id="cnt">...</span> | <span id="num">...</span><br />
+    <hr />
+    <h2><span id="val">...</span></h2>
     <hr />
     <b>10 </b><span id="d10">...</span><br />
     <b>20 </b><span id="d20">...</span><br />
@@ -84,13 +90,13 @@ function loadInfo()
 
 <div class="radius">
 <br />
-polyline<br /
+Chart - polyline (screen 0->300)<br /
 >
 <svg height="210" width="500">
-<line x1="0" y1="1" x2="300" y2="1" style="stroke:rgb(255,0,0);stroke-width:1" />
-<line x1="0" y1="100" x2="300" y2="100" style="stroke:rgb(255,0,0);stroke-width:1" />
-<line x1="0" y1="200" x2="300" y2="200" style="stroke:rgb(255,0,0);stroke-width:1" />
-<polyline id="pl1" points="20,20 40,25 60,40 80,120 120,140 200,180 220,20 240,30 260,15 280,100 300,80" style="fill:none;stroke:maroon;stroke-width:3" />
+<line x1="0" y1="1" x2="500" y2="1" style="stroke:rgb(0,0,255);stroke-width:1" />
+<line x1="0" y1="100" x2="500" y2="100" style="stroke:rgb(0,0,255);stroke-width:1" />
+<line x1="0" y1="200" x2="500" y2="200" style="stroke:rgb(255,0,0);stroke-width:1" />
+<polyline id="pl1" points="" style="fill:none;stroke:maroon;stroke-width:2" />
 Sorry, your browser does not support inline SVG.
 </svg>
 </div>
@@ -98,7 +104,7 @@ Sorry, your browser does not support inline SVG.
 <br />
 <div class="radius">
 <br />
-◄ Back to main <a href="../index.html">MENU</a>
+◄ Back to main <a href="index.html">MENU</a>
 </div>
 
 </body></html>

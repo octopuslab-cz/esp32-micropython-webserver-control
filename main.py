@@ -27,16 +27,22 @@ def _httpHandlerINFOPost(httpClient, httpResponse):
 cnt = 0
 def _httpHandlerDATAPost(httpClient, httpResponse):
     global cnt
+    val = 100
+    num = 20
     cnt = cnt + 1
-    infoDict = {}
-    infoDict["cnt"] = cnt
-    infoDict["10"] = randint(100,200)
-    infoDict["20"] = randint(100,200)
-    infoDict["30"] = randint(100,200)
-    infoDict["40"] = randint(100,200)
-    infoDict["50"] = randint(100,200)
-    infoDict["60"] = randint(100,200)
-    httpResponse.WriteResponseJSONOk(infoDict)
+    dataDict = {}
+    dataDict["cnt"] = cnt
+    dataDict["num"] = 30
+    dataDict["10"] = 200
+    dataDict["20"] = 100
+    dataDict["30"] = 0
+    for i in range(num):
+        val = val + randint(-10,10)
+        dataDict[i*10 + 40] = val
+
+    dataDict["val"] = val
+    
+    httpResponse.WriteResponseJSONOk(dataDict)
 
 
 def _httpHandlerLEDPost(httpClient, httpResponse):
@@ -77,6 +83,26 @@ def _httpHandlerCOMMPost(httpClient, httpResponse):
     httpResponse.WriteResponse( code=responseCode, headers = None, contentType = "text/plain", contentCharset = "UTF-8", content = content)
 
 
+def _httpHandlerEXPANDPost(httpClient, httpResponse):
+        """
+        if expander is None:
+            print("I2C expander is not initialized!")
+            httpResponse.WriteResponseOk(None)
+            return        
+        """
+        from components.i2c_expander import neg
+        data = httpClient.ReadRequestContent()
+        print("i2c_expander.data: " + str(data) + str(bin(int(data))))
+
+        try:
+            expander.write_8bit(neg(int(data)))
+        except Exception as e:
+            print("Exception: {0}".format(e))
+            raise
+        finally:
+            httpResponse.WriteResponseOk(None)
+
+
 def _httpHandlerRGBPost(httpClient, httpResponse):
     content = httpClient.ReadRequestContent()
     colors = json.loads(content)
@@ -106,7 +132,7 @@ print("-"*50)
 
 if (btnum==0):
     print("button0 -> start WebServer www/control/")
-    routeHandlers = [ ( "/command", "POST",  _httpHandlerCOMMPost ),( "/info.json", "GET",  _httpHandlerINFOPost ),( "/data.json", "GET",  _httpHandlerDATAPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ) ]
+    routeHandlers = [ ( "/control/expander", "POST",  _httpHandlerEXPANDPost ),( "/command", "POST",  _httpHandlerCOMMPost ),( "/info.json", "GET",  _httpHandlerINFOPost ),( "/data.json", "GET",  _httpHandlerDATAPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ) ]
     srv = MicroWebSrv(routeHandlers=routeHandlers, webPath='/www/control/')
     srv.Start(threaded=False)
 else:
