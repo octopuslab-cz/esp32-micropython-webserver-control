@@ -6,8 +6,10 @@ from components.led import Led
 from components.rgb import Rgb
 import json
 
-neo = 30 # number of Leds
-np = Rgb(15,neo) # NeoPixel(Pin(15), 1)
+neo = 16 # 30 # number of Leds
+np1 = Rgb(15,neo) # NeoPixel(Pin(15), 1) # SWLED
+np2 = Rgb(16,neo) # NeoPixel(Pin(15), 1) # PWM/SERVO2
+
 led = Led(2)
 # pwm
 
@@ -51,6 +53,17 @@ def _httpHandlerLEDPost(httpClient, httpResponse):
     print("led: ", jsc)
     led.value(jsc)
     httpResponse.WriteResponseJSONOk()
+
+sele = 1
+def _httpHandlerSELEPost(httpClient, httpResponse):
+    global sele
+    content = httpClient.ReadRequestContent()  # Read JSON color data
+    sel = json.loads(content)
+    print("select: ", sel)
+    sele = sel
+    #led.value(jsc)
+    httpResponse.WriteResponseJSONOk()
+
 
 
 def _httpHandlerPWMPost(httpClient, httpResponse):
@@ -107,8 +120,15 @@ def _httpHandlerRGBPost(httpClient, httpResponse):
     content = httpClient.ReadRequestContent()
     colors = json.loads(content)
     blue, green, red = [colors[k] for k in sorted(colors.keys())]
-    for i in range(neo):
-       np.color((red, green, blue),i)
+
+    if sele == 1:
+       for i in range(neo):
+          np1.color((red, green, blue),i)
+
+    if sele == 2:
+       for i in range(neo):
+          np2.color((red, green, blue),i)
+
     httpResponse.WriteResponseJSONOk()
 
 btnum = 0
@@ -132,7 +152,7 @@ print("-"*50)
 
 if (btnum==0):
     print("button0 -> start WebServer www/control/")
-    routeHandlers = [ ( "/control/expander", "POST",  _httpHandlerEXPANDPost ),( "/command", "POST",  _httpHandlerCOMMPost ),( "/info.json", "GET",  _httpHandlerINFOPost ),( "/data.json", "GET",  _httpHandlerDATAPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ) ]
+    routeHandlers = [ ( "/control/expander", "POST",  _httpHandlerEXPANDPost ),( "/command", "POST",  _httpHandlerCOMMPost ),( "/info.json", "GET",  _httpHandlerINFOPost ),( "/data.json", "GET",  _httpHandlerDATAPost ),( "/control/led", "POST",  _httpHandlerLEDPost ),( "/control/pwm", "POST",  _httpHandlerPWMPost ), ( "/control/rgb", "POST",  _httpHandlerRGBPost ),( "/control/select", "POST",  _httpHandlerSELEPost ) ]
     srv = MicroWebSrv(routeHandlers=routeHandlers, webPath='/www/control/')
     srv.Start(threaded=False)
 else:
